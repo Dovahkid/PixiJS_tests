@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="">
+  <head>
+    <meta charset="utf-8">
+    <title></title>
+  </head>
+  <body>
+    <header></header>
+    <main>
+
+		<script src="index.js"></script>
+		<script src="https://pixijs.download/release/pixi.js"></script>
+		<script>
+
+			const Width = 905;
+			const Height = 1000;
+
+			const Sq_dim = 20;
+			const Sq_dist = Sq_dim + 5; // 5 is an arbitrary number
+			const Sq_w_offset = 5;
+			const Sq_h_offset = 80;
+
+			let squares = [];
+			let colors = [0xff0505, 0x05ff05, 0x19efff, 0x4519ff];
+
+			let app = new PIXI.Application({ width: Width, height: Height });
+			// let sprite = PIXI.Sprite.from('sample.png');
+
+			document.body.appendChild(app.view);
+			// app.stage.addChild(sprite);
+
+			let counter = 0;
+
+			for(let j = 0; j < 20; j++){
+				for(let i = 0; i < Math.floor(Width / (Sq_dist)); i++) {
+					squares[counter] = new PIXI.Sprite(PIXI.Texture.WHITE);
+					squares[counter].anchor.set(0);
+					squares[counter].width = squares[counter].height = Sq_dim;
+					squares[counter].position
+						.set( 
+							(i*Sq_dist) + Sq_w_offset, 
+							(j*Sq_dist) + Sq_h_offset 
+						);
+
+					// squares[counter].buttonMode = true;
+					squares[counter].interactive = true;
+					const thisSquare = counter;
+					squares[counter].on('pointerdown', () => 
+							destroyBlock(squares[thisSquare]));
+									
+					squares[counter].tint = colors[ Math.floor(
+							Math.random()*100) % colors.length ];
+
+					app.stage.addChild(squares[counter]);
+					counter++;
+				}
+			}
+			
+			// console.log(squares);
+
+			function destroyBlock(object) {
+				// console.log(object);
+				object.tint = 0x000000;
+			}
+
+			// let elapsed = 0.0;
+
+			// app.ticker.add((delta) => {
+			// 	elapsed += delta;
+			// 	sprite.x = 100.0 + Math.cos(elapsed/50.0) * 100.0;
+			// });
+		</script>
+	</main>
+    <footer></footer>
+  </body>
+</html>
